@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>সিলেট সরকারি আলিয়া মাদ্রাসা - পূর্ণাঙ্গ রুটিন</title>
+<style>
+:root {
+  --primary: #10b981;
+  --primary-glow: rgba(16, 185, 129, 0.25);
+  --bg-dark: #0f172a;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --accent: #38bdf8;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { 
+  background: var(--bg-dark); 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+  color: var(--text-main); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px 0;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px; 
+  background: #111827;
+  min-height: 95vh;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  border: 1px solid #1f2937;
+  overflow: hidden;
+}
+
+.top-header {
+  padding: 18px 20px;
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1f2937;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.brand-title h1 { 
+  font-size: 17px; 
+  background: linear-gradient(to right, #10b981, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.role-bar {
+  display: flex;
+  background: #0f172a;
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+  border: 1px solid #1f2937;
+}
+
+.role-btn {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--text-sub);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.role-btn.active {
+  background: var(--primary);
+  color: #000;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.content {
+  padding: 18px;
+  flex: 1;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.select-input, .input-field {
+  flex: 1;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-main);
+  border-radius: 12px;
+  padding: 11px 14px;
+  outline: none;
+  font-size: 14px;
+  transition: border 0.3s;
+}
+
+.select-input:focus, .input-field:focus { 
+  border-color: var(--primary); 
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+}
+
+.day-title {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.routine-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--primary);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.routine-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  padding-right: 50px;
+}
+
+.card-teacher {
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-edit { background: var(--warning); color: #000; }
+.btn-delete { background: var(--danger); color: #fff; }
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card-bg);
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #000;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 50px 10px;
+  color: var(--text-sub);
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <header class="top-header">
+    <div class="brand-title">
+      <h1>🏫 সিলেট সরকারি আলিয়া মাদ্রাসা</h1>
+      <small id="roleIndicator" style="color: var(--text-sub); font-size: 11px;">Student Mode</small>
+    </div>
+    <div class="role-bar">
+      <button class="role-btn active" onclick="setRole('student')">🎓 ছাত্র/ছাত্রী</button>
+      <button class="role-btn" onclick="setRole('teacher')">👨‍🏫 শিক্ষক</button>
+      <button class="role-btn" onclick="setRole('admin')">⚙️ এডিট</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="controls" id="filterControls">
+      <select id="mainSelect" class="select-input" onchange="renderCards()"></select>
+      <select id="daySelect" class="select-input" onchange="renderCards()"></select>
+    </div>
+
+    <div class="day-header">
+      <span class="day-title" id="dayDisplay">📅 রবিবার</span>
+      <span style="color: var(--text-sub); font-size: 12px;">দৈনিক ক্লাস রুটিন</span>
+    </div>
+
+    <div id="cardContainer"></div>
+
+    <div id="adminPanel" style="display: none;">
+      <h3 id="formTitle" style="margin-bottom: 12px; font-size: 15px; color: var(--primary);">ক্লাস সংশোধন / যুক্ত করুন</h3>
+      <div class="admin-form">
+        <input type="hidden" id="editId">
+        <input class="input-field" id="addSubject" placeholder="বিষয়">
+        <input class="input-field" id="addTeacher" placeholder="শিক্ষক (যেমন: ZHC, MRM)">
+        <input class="input-field" id="addRoom" placeholder="রুম নম্বর (যেমন: কক্ষ-০৬)">
+        <select id="addPeriod" class="select-input">
+          <option value="1">১ম পিরিয়ড (9:45 AM - 10:30 AM)</option>
+          <option value="2">২য় পিরিয়ড (10:30 AM - 11:15 AM)</option>
+          <option value="3">৩য় পিরিয়ড (11:15 AM - 12:00 PM)</option>
+          <option value="4">৪র্থ পিরিয়ড (12:00 PM - 12:45 PM)</option>
+          <option value="5">৫ম পিরিয়ড (12:45 PM - 1:25 PM)</option>
+          <option value="6">৬ষ্ঠ পিরিয়ড (2:00 PM - 2:45 PM)</option>
+          <option value="7">৭ম পিরিয়ড (2:45 PM - 3:30 PM)</option>
+        </select>
+        <select id="addDay" class="select-input"></select>
+        <select id="addClass" class="select-input"></select>
+        <input class="input-field" id="addTag" placeholder="ট্যাগ (যেমন: বিজ্ঞান / সাধারণ)">
+        <button class="btn-primary" id="saveBtn" onclick="saveRoutine()">রুটিন সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const times = {
+  1: "9:45 AM - 10:30 AM", 
+  2: "10:30 AM - 11:15 AM", 
+  3: "11:15 AM - 12:00 PM", 
+  4: "12:00 PM - 12:45 PM", 
+  5: "12:45 PM - 1:25 PM", 
+  6: "2:00 PM - 2:45 PM", 
+  7: "2:45 PM - 3:30 PM"
+};
+
+const days = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার"];
+const classes = [
+  "দাখিল-৯ম", "দাখিল-১০ম", "আলিম-১ম", "আলিম-২য়", 
+  "ফাযিল-১ম", "ফাযিল-২য়", "ফাযিল-৩য়", 
+  "কামিল-১ম হাদিস", "কামিল-২য় হাদিস", "কামিল-১ম তাফসির", "কামিল-২য় তাফসির", "কামিল-১ম ফিকহ", "কামিল-২য় ফিকহ"
+];
+
+// PDF এর শতভাগ ডাটা সেট (Sunday - Thursday)
+const fullRoutineData = [
+  // --- রবিবার (Sunday) ---
+  {id:101, day:"রবিবার", className:"কামিল-২য় হাদিস", period:3, subject:"মুসলিম (১)", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:102, day:"রবিবার", className:"কামিল-২য় হাদিস", period:4, subject:"বুখারী-২", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:103, day:"রবিবার", className:"কামিল-২য় হাদিস", period:5, subject:"বুখারী-১", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:104, day:"রবিবার", className:"কামিল-১ম তাফসির", period:3, subject:"তাফসির বিদ দিরায়াহ (২)", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:105, day:"রবিবার", className:"কামিল-১ম তাফসির", period:4, subject:"তাফসীর বিররিওয়াইয়াহ (১)", teacher:"ZHC", room:"কক্ষ-০৯", tag:""},
+  {id:106, day:"রবিবার", className:"কামিল-১ম তাফসির", period:5, subject:"তা: ই: ও তা: ইলমে হাদীস", teacher:"মাদ্রাসা", room:"কক্ষ-১০", tag:""},
+  {id:107, day:"রবিবার", className:"কামিল-১ম তাফসির", period:6, subject:"তাহাবী", teacher:"FRC", room:"কক্ষ-১০", tag:""},
+  {id:108, day:"রবিবার", className:"কামিল-১ম তাফসির", period:7, subject:"আত্ তাফসীরুল ফিকহী (১)", teacher:"মাদ্রাসা", room:"কক্ষ-০৯", tag:""},
+  {id:109, day:"রবিবার", className:"কামিল-২য় ফিকহ", period:3, subject:"আল-ফিরাকুল ইসলামিয়্যাহ্", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:110, day:"রবিবার", className:"কামিল-১ম ফিকহ", period:1, subject:"উসূলুল ফিক্‌হ (১)", teacher:"FRC", room:"কক্ষ-১৪", tag:""},
+  {id:111, day:"রবিবার", className:"ফাযিল-২য়", period:3, subject:"উসূলুল ফিকহ", teacher:"ZHC", room:"কক্ষ-১৭", tag:""},
+  {id:112, day:"রবিবার", className:"ফাযিল-২য়", period:4, subject:"ইসলামের ইতিহাস (১)", teacher:"AH", room:"কক্ষ-১৭", tag:""},
+  {id:113, day:"রবিবার", className:"ফাযিল-২য়", period:5, subject:"আল-ফিকহুল ইসলামী", teacher:"FRC", room:"কক্ষ-১৭", tag:""},
+  {id:114, day:"রবিবার", className:"ফাযিল-২য়", period:6, subject:"বাংলাদেশ স্টাডিজ", teacher:"AHC", room:"কক্ষ-১৮", tag:""},
+  {id:115, day:"রবিবার", className:"ফাযিল-২য়", period:7, subject:"আদ দাওয়াতুল ইসলামিয়্যাহ্ ওয়াত তাসাউফ", teacher:"ZHC", room:"কক্ষ-১৭", tag:""},
+  {id:116, day:"রবিবার", className:"ফাযিল-১ম", period:4, subject:"হাদিস", teacher:"ZHC", room:"কক্ষ-১৬", tag:""},
+  {id:117, day:"রবিবার", className:"ফাযিল-১ম", period:5, subject:"আকাঈদ", teacher:"FRC", room:"কক্ষ-১৬", tag:""},
+  {id:118, day:"রবিবার", className:"আলিম-২য়", period:1, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-১২", tag:""},
+  {id:119, day:"রবিবার", className:"আলিম-২য়", period:2, subject:"তথ্য ও যোগাযোগ প্রযুক্তি", teacher:"Abdullah Al Noman", room:"কক্ষ-১২", tag:""},
+  {id:120, day:"রবিবার", className:"আলিম-২য়", period:3, subject:"উ: গণিত / অর্থ / পৌর", teacher:"RH / SKC / AHC", room:"কক্ষ-০৭ / ১৮ / ১২", tag:""},
+  {id:121, day:"রবিবার", className:"আলিম-২য়", period:4, subject:"জীব / মানতিক", teacher:"SSI / ZHC", room:"কক্ষ-০৭ / ১২", tag:""},
+  {id:122, day:"রবিবার", className:"আলিম-২য়", period:5, subject:"কুরআন", teacher:"ZHC", room:"কক্ষ-১২", tag:""},
+  {id:123, day:"রবিবার", className:"আলিম-২য়", period:6, subject:"উ.গণিত / আরবি-২", teacher:"RH / MRM", room:"কক্ষ-০৭ / ১২", tag:""},
+  {id:124, day:"রবিবার", className:"আলিম-১ম", period:1, subject:"কুরআন", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:125, day:"রবিবার", className:"আলিম-১ম", period:2, subject:"উ.গণিত / আরবি-২", teacher:"AH / MRM", room:"কক্ষ-০৭ / ১১", tag:""},
+  {id:126, day:"রবিবার", className:"আলিম-১ম", period:3, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-১১", tag:""},
+  {id:127, day:"রবিবার", className:"আলিম-১ম", period:4, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১১", tag:""},
+  {id:128, day:"রবিবার", className:"আলিম-১ম", period:5, subject:"জীব / উসূলে ফিকহ", teacher:"SSI / FRC", room:"কক্ষ-০৭ / ১১", tag:""},
+  {id:129, day:"রবিবার", className:"আলিম-১ম", period:6, subject:"উসুল-ই-ফিকহ / জীব ব্যব:", teacher:"FRC / SSI", room:"কক্ষ-১১ / ০৭", tag:""},
+  {id:130, day:"রবিবার", className:"আলিম-১ম", period:7, subject:"পদার্থ / ই.ইতি / গণিত", teacher:"RS / AH / RH", room:"কক্ষ-০৮ / ১১ / ০৭", tag:""},
+  {id:131, day:"রবিবার", className:"দাখিল-১০ম", period:1, subject:"হাদিস", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:132, day:"রবিবার", className:"দাখিল-১০ম", period:2, subject:"গণিত", teacher:"RH", room:"কক্ষ-০৬", tag:""},
+  {id:133, day:"রবিবার", className:"দাখিল-১০ম", period:3, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৬", tag:""},
+  {id:134, day:"রবিবার", className:"দাখিল-১০ম", period:4, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:135, day:"রবিবার", className:"দাখিল-১০ম", period:5, subject:"পদার্থ / ই.ইতি", teacher:"RS / AH", room:"কক্ষ-০৯ / ০৬", tag:""},
+  {id:136, day:"রবিবার", className:"দাখিল-১০ম", period:6, subject:"বাংলা", teacher:"IS", room:"কক্ষ-০৬", tag:""},
+  {id:137, day:"রবিবার", className:"দাখিল-৯ম", period:1, subject:"গণিত", teacher:"AH", room:"কক্ষ-০৫", tag:""},
+  {id:138, day:"রবিবার", className:"দাখিল-৯ম", period:2, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:139, day:"রবিবার", className:"দাখিল-৯ম", period:3, subject:"বাংলা", teacher:"AQ", room:"কক্ষ-০৫", tag:""},
+  {id:140, day:"রবিবার", className:"দাখিল-৯ম", period:4, subject:"হাদিস", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:141, day:"রবিবার", className:"দাখিল-৯ম", period:5, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৫", tag:""},
+  {id:142, day:"রবিবার", className:"দাখিল-৯ম", period:6, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+  {id:143, day:"রবিবার", className:"দাখিল-৯ম", period:7, subject:"তথ্য ও যোগাযোগ প্রযুক্তি", teacher:"Abdullah Al NomanS", room:"কক্ষ-০৫", tag:""},
+
+  // --- সোমবার (Monday) ---
+  {id:201, day:"সোমবার", className:"কামিল-২য় হাদিস", period:2, subject:"তিরমিযী", teacher:"ZHC", room:"কক্ষ-১০", tag:""},
+  {id:202, day:"সোমবার", className:"কামিল-২য় হাদিস", period:4, subject:"নাসাঈ ওয়া মুয়াত্তায়ে মালিক", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:203, day:"সোমবার", className:"কামিল-২য় হাদিস", period:5, subject:"বুখারী-২", teacher:"মাদ্রাসা", room:"কক্ষ-১০", tag:""},
+  {id:204, day:"সোমবার", className:"কামিল-১ম হাদিস", period:4, subject:"তারিখে ইসলামী ও তারিখে ইলমে হাদীস", teacher:"মাদ্রাসা", room:"কক্ষ-১০", tag:""},
+  {id:205, day:"সোমবার", className:"কামিল-১ম হাদিস", period:5, subject:"ইবনে মাজাহ", teacher:"FRC", room:"কক্ষ-১০", tag:""},
+  {id:206, day:"সোমবার", className:"কামিল-২য় তাফসির", period:4, subject:"তাফসির বির রিওয়াইয়াহ (২)", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:207, day:"সোমবার", className:"কামিল-১ম তাফসির", period:5, subject:"আত্ তাফসীরুল ফিকহী (২)", teacher:"মাদ্রাসা", room:"কক্ষ-১২", tag:""},
+  {id:208, day:"সোমবার", className:"ফাযিল-৩য়", period:2, subject:"ইসলামের ইতিহাস (২)", teacher:"AH", room:"কক্ষ-২০", tag:""},
+  {id:209, day:"সোমবার", className:"ফাযিল-৩য়", period:3, subject:"আবু দাউদ", teacher:"মাদ্রাসা", room:"কক্ষ-১০", tag:""},
+  {id:210, day:"সোমবার", className:"ফাযিল-৩য়", period:4, subject:"তারিখুল ইলমিল হাদীস", teacher:"ZHC", room:"কক্ষ-১৬", tag:""},
+  {id:211, day:"সোমবার", className:"ফাযিল-৩য়", period:5, subject:"উলুমুল বালাগাহ্", teacher:"মাদ্রাসা", room:"কক্ষ-১৭", tag:""},
+  {id:212, day:"সোমবার", className:"ফাযিল-৩য়", period:6, subject:"ফিকহুল ইবাদাত", teacher:"ZHC", room:"কক্ষ-১৪", tag:""},
+  {id:213, day:"সোমবার", className:"ফাযিল-২য়", period:3, subject:"ইসলামী স্টাডিজ", teacher:"মাদ্রাসা", room:"কক্ষ-২০", tag:""},
+  {id:214, day:"সোমবার", className:"ফাযিল-২য়", period:4, subject:"ওয়া তারিখু তাফসীর", teacher:"মাদ্রাসা", room:"কক্ষ-১৬", tag:""},
+  {id:215, day:"সোমবার", className:"ফাযিল-২য়", period:5, subject:"উসূলুল ফিক্‌ ও আসরারুশ শারিয়াহ্", teacher:"মাদ্রাসা", room:"কক্ষ-১৭", tag:""},
+  {id:216, day:"সোমবার", className:"ফাযিল-২য়", period:6, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১৬", tag:""},
+  {id:217, day:"সোমবার", className:"ফাযিল-১ম", period:4, subject:"ফিকহুল মুয়ামালা ওয়া ইকতিসাদ", teacher:"AHC", room:"কক্ষ-১৬", tag:""},
+  {id:218, day:"সোমবার", className:"ফাযিল-১ম", period:5, subject:"ফিকাহ-১ম", teacher:"FRC", room:"কক্ষ-১৭", tag:""},
+  {id:219, day:"সোমবার", className:"ফাযিল-১ম", period:6, subject:"আরবি", teacher:"মাদ্রাসা", room:"কক্ষ-১৭", tag:""},
+  {id:220, day:"সোমবার", className:"ফাযিল-১ম", period:7, subject:"আকাইদ", teacher:"FRC", room:"কক্ষ-১৭", tag:""},
+  {id:221, day:"সোমবার", className:"আলিম-২য়", period:1, subject:"কুরআন", teacher:"ZHC", room:"কক্ষ-১২", tag:""},
+  {id:222, day:"সোমবার", className:"আলিম-২য়", period:2, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১২", tag:""},
+  {id:223, day:"সোমবার", className:"আলিম-২য়", period:3, subject:"হাদিস", teacher:"ZHC", room:"কক্ষ-১২", tag:""},
+  {id:224, day:"সোমবার", className:"আলিম-২য়", period:4, subject:"রসায়ন / আরবি-২", teacher:"HRC / MRM", room:"কক্ষ-০৭ / ১২", tag:""},
+  {id:225, day:"সোমবার", className:"আলিম-২য়", period:5, subject:"উসূল", teacher:"FRC", room:"কক্ষ-১২", tag:""},
+  {id:226, day:"সোমবার", className:"আলিম-২য়", period:6, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-১২", tag:""},
+  {id:227, day:"সোমবার", className:"আলিম-২য়", period:7, subject:"ফিকহ-১", teacher:"FRC", room:"কক্ষ-১২", tag:""},
+  {id:228, day:"সোমবার", className:"আলিম-১ম", period:1, subject:"আরবী-১", teacher:"MRM", room:"কক্ষ-১১", tag:""},
+  {id:229, day:"সোমবার", className:"আলিম-১ম", period:2, subject:"ফিকহ-১ম", teacher:"FRC", room:"কক্ষ-১১", tag:""},
+  {id:230, day:"সোমবার", className:"আলিম-১ম", period:3, subject:"রসায়ন / অর্থ", teacher:"HRC / SKC", room:"কক্ষ-০৭ / ১৮", tag:""},
+  {id:231, day:"সোমবার", className:"আলিম-১ম", period:4, subject:"তথ্য ও যোগাযোগ প্রযুক্তি", teacher:"DBA", room:"কক্ষ-১১", tag:""},
+  {id:232, day:"সোমবার", className:"আলিম-১ম", period:5, subject:"বালাগাত", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:233, day:"সোমবার", className:"আলিম-১ম", period:6, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১১", tag:""},
+  {id:234, day:"সোমবার", className:"আলিম-১ম", period:7, subject:"পৌর", teacher:"AHC", room:"কক্ষ-১১", tag:""},
+  {id:235, day:"সোমবার", className:"দাখিল-১০ম", period:1, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৬", tag:""},
+  {id:236, day:"সোমবার", className:"দাখিল-১০ম", period:2, subject:"আকাইদ ও ফিকহ", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:237, day:"সোমবার", className:"দাখিল-১০ম", period:3, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:238, day:"সোমবার", className:"দাখিল-১০ম", period:4, subject:"পদার্থ / ই.ইতি", teacher:"RS / AH", room:"কক্ষ-০৮ / ০৬", tag:""},
+  {id:239, day:"সোমবার", className:"দাখিল-১০ম", period:5, subject:"বাংলা", teacher:"IS", room:"কক্ষ-০৬", tag:""},
+  {id:240, day:"সোমবার", className:"দাখিল-১০ম", period:6, subject:"গণিত", teacher:"RH", room:"কক্ষ-০৬", tag:""},
+  {id:241, day:"সোমবার", className:"দাখিল-৯ম", period:1, subject:"হাদিস", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:242, day:"সোমবার", className:"দাখিল-৯ম", period:2, subject:"রসায়ন / ত:যো:প্র:", teacher:"HRC / AQ", room:"কক্ষ-০৭ / ০৫", tag:""},
+  {id:243, day:"সোমবার", className:"দাখিল-৯ম", period:3, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+  {id:244, day:"সোমবার", className:"দাখিল-৯ম", period:4, subject:"আকাইদ ও ফিকহ", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:245, day:"সোমবার", className:"দাখিল-৯ম", period:5, subject:"জীব / বা.বি.প", teacher:"SSI / AQ", room:"কক্ষ-০৫ / ১৭", tag:""},
+  {id:246, day:"সোমবার", className:"দাখিল-৯ম", period:6, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:247, day:"সোমবার", className:"দাখিল-৯ম", period:7, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+
+  // --- মঙ্গলবার (Tuesday) ---
+  {id:301, day:"মঙ্গলবার", className:"কামিল-২য় হাদিস", period:2, subject:"বুখারী-১ম", teacher:"মাদ্রাসা", room:"কক্ষ-০৭", tag:""},
+  {id:302, day:"মঙ্গলবার", className:"কামিল-২য় হাদিস", period:3, subject:"নাসাঈ ওয়া মুয়াত্তায়ে মালেক", teacher:"মাদ্রাসা", room:"কক্ষ-০৭", tag:""},
+  {id:303, day:"মঙ্গলবার", className:"কামিল-২য় হাদিস", period:4, subject:"মুসলিম (২)", teacher:"মাদ্রাসা", room:"কক্ষ-০৭", tag:""},
+  {id:304, day:"মঙ্গলবার", className:"কামিল-১ম হাদিস", period:2, subject:"মুস্তালাহুল হাদীস ওয়া মানাহিফুল মুহাদ্দিসীন", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:305, day:"মঙ্গলবার", className:"কামিল-১ম হাদিস", period:3, subject:"দিরাসাতুত্ তাফসীর ওয়া উসুলুহু", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:306, day:"মঙ্গলবার", className:"কামিল-২য় তাফসির", period:3, subject:"তাফসীর বিদ দিরায়াহ (২)", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:307, day:"মঙ্গলবার", className:"কামিল-২য় তাফসির", period:5, subject:"আত তাফসিরুল মুয়াসির (২)", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:308, day:"মঙ্গলবার", className:"কামিল-১ম তাফসির", period:1, subject:"তাফসিরুল মুয়াসির (১)", teacher:"FRC", room:"কক্ষ-০৯", tag:""},
+  {id:309, day:"মঙ্গলবার", className:"কামিল-১ম তাফসির", period:2, subject:"উলুমুল কুরআন", teacher:"মাদ্রাসা", room:"কক্ষ-০৯", tag:""},
+  {id:310, day:"মঙ্গলবার", className:"কামিল-২য় ফিকহ", period:4, subject:"ফিকহুল মুয়ামালা ওয়া ইকতিসাদ", teacher:"মাদ্রাসা", room:"কক্ষ-১৬", tag:""},
+  {id:311, day:"মঙ্গলবার", className:"কামিল-১ম ফিকহ", period:5, subject:"উসুলুল ইফতা ওয়াল ফিকহুল মুকারান", teacher:"মাদ্রাসা", room:"কক্ষ-১৬", tag:""},
+  {id:312, day:"মঙ্গলবার", className:"ফাযিল-৩য়", period:2, subject:"আল কাওয়াইদুল ফিকহিয়‍্যাহ", teacher:"মাদ্রাসা", room:"কক্ষ-১৪", tag:""},
+  {id:313, day:"মঙ্গলবার", className:"ফাযিল-৩য়", period:3, subject:"আত্ তারিখুল ইসলামী ওয়া তারিখু ইলমিল ফিকহ", teacher:"মাদ্রাসা", room:"কক্ষ-১৪", tag:""},
+  {id:314, day:"মঙ্গলবার", className:"ফাযিল-৩য়", period:4, subject:"আত তারিখুল ইসলামী ওয়া তারিখে ইলমুল ফিক্", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:315, day:"মঙ্গলবার", className:"ফাযিল-২য়", period:2, subject:"আরবি (১)", teacher:"মাদ্রাসা", room:"কক্ষ-২০", tag:""},
+  {id:316, day:"মঙ্গলবার", className:"ফাযিল-২য়", period:3, subject:"বাংলাদেশ স্টাডিজ", teacher:"DBA", room:"কক্ষ-২০", tag:""},
+  {id:317, day:"মঙ্গলবার", className:"ফাযিল-২য়", period:4, subject:"উসুল-ই ফিকাহ", teacher:"ZHC", room:"কক্ষ-১৭", tag:""},
+  {id:318, day:"মঙ্গলবার", className:"ফাযিল-২য়", period:5, subject:"আরবি", teacher:"মাদ্রাসা", room:"কক্ষ-১৭", tag:""},
+  {id:319, day:"মঙ্গলবার", className:"ফাযিল-১ম", period:3, subject:"ইংরেজি", teacher:"MR", room:"কক্ষ-১৭", tag:""},
+  {id:320, day:"মঙ্গলবার", className:"ফাযিল-১ম", period:4, subject:"দিরাসাতুত তাফসীর (১)", teacher:"FRC", room:"মাদ্রাসা", tag:""},
+  {id:321, day:"মঙ্গলবার", className:"ফাযিল-১ম", period:5, subject:"আল ফিকহুল ইসলামী (২)", teacher:"ZHC", room:"মাদ্রাসা", tag:""},
+  {id:322, day:"মঙ্গলবার", className:"আলিম-২য়", period:1, subject:"হাদীস", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:323, day:"মঙ্গলবার", className:"আলিম-২য়", period:2, subject:"ইংরেজি / হাদিস", teacher:"MR / ZHC", room:"কক্ষ-১২ / ১২", tag:""},
+  {id:324, day:"মঙ্গলবার", className:"আলিম-২য়", period:3, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-১২", tag:""},
+  {id:325, day:"মঙ্গলবার", className:"আলিম-২য়", period:4, subject:"পদার্থ / ই.ইতি / উ.গ / আরবি-২", teacher:"RS / AH / AH / MRM", room:"কক্ষ-০৯ / ১২ / ০৭ / ১১", tag:""},
+  {id:326, day:"মঙ্গলবার", className:"আলিম-২য়", period:5, subject:"মানতিক / বাংলা", teacher:"ZHC / IS", room:"কক্ষ-১২ / ১১", tag:""},
+  {id:327, day:"মঙ্গলবার", className:"আলিম-২য়", period:6, subject:"কুরআন / ত.যো.প্র", teacher:"ZHC / DBA", room:"কক্ষ-১২ / ১১", tag:""},
+  {id:328, day:"মঙ্গলবার", className:"আলিম-২য়", period:7, subject:"জীব / ফারায়েজ / রসায়ন / অর্থ / পৌর", teacher:"SSI / FRC / HRC / SKC / AH", room:"কক্ষ-০৭ / ১২ / ০৭ / ১৮ / ১৫", tag:""},
+  {id:329, day:"মঙ্গলবার", className:"আলিম-১ম", period:2, subject:"ফিক্‌হ্ন-১", teacher:"FRC", room:"কক্ষ-১১", tag:""},
+  {id:330, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:1, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:331, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:2, subject:"গণিত", teacher:"RH", room:"কক্ষ-০৬", tag:""},
+  {id:332, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:3, subject:"বাংলা", teacher:"IS", room:"কক্ষ-০৬", tag:""},
+  {id:333, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:4, subject:"আকইদ ও ফিকহ", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:334, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:5, subject:"রসায়ন / ত::যোপ্র", teacher:"HRC / DBA", room:"কক্ষ-০৭ / ০৬", tag:""},
+  {id:335, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:6, subject:"হাদিস", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:336, day:"মঙ্গলবার", className:"দাখিল-১০ম", period:7, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:337, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:1, subject:"আকাইদ ও ফিকহ", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:338, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:2, subject:"রসায়ন / ত.যো.প্র", teacher:"HRC / AQ", room:"কক্ষ-০৮ / ০৫", tag:""},
+  {id:339, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:3, subject:"বাংলা", teacher:"AQ", room:"কক্ষ-০৫", tag:""},
+  {id:340, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:4, subject:"জীব / বা.বি.প", teacher:"SSI / AQ", room:"কক্ষ-০৭ / ০৫", tag:""},
+  {id:341, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:5, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+  {id:342, day:"মঙ্গলবার", className:"দাখিল-৯ম", period:6, subject:"গণিত", teacher:"AH", room:"কক্ষ-০৫", tag:""},
+
+  // --- বুধবার (Wednesday) ---
+  {id:401, day:"বুধবার", className:"কামিল-২য় হাদিস", period:2, subject:"উ.হাদিস", teacher:"মাদ্রাসা", room:"কক্ষ-০৭", tag:""},
+  {id:402, day:"বুধবার", className:"কামিল-২য় হাদিস", period:3, subject:"মুসলিম (১)", teacher:"মাদ্রাসা", room:"কক্ষ-০৭", tag:""},
+  {id:403, day:"বুধবার", className:"কামিল-১ম হাদিস", period:3, subject:"দিরাসাতুল হাদীস ওয়া উসুলুহ", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:404, day:"বুধবার", className:"কামিল-২য় তাফসির", period:2, subject:"আহকামুল কুরআন", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:405, day:"বুধবার", className:"কামিল-১ম তাফসির", period:2, subject:"তাফসির বিদ দিরায়াহ্ (১)", teacher:"ZHC", room:"কক্ষ-০৯", tag:""},
+  {id:406, day:"বুধবার", className:"কামিল-১ম তাফসির", period:3, subject:"মু'আসীর (১)", teacher:"FRC", room:"কক্ষ-১০", tag:""},
+  {id:407, day:"বুধবার", className:"কামিল-২য় ফিকহ", period:2, subject:"আল ফিকহুল ইসলামী (৩)", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:408, day:"বুধবার", className:"কামিল-২য় ফিকহ", period:4, subject:"আল-আকিদাতুল ইসলামিয়্যাহ্", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:409, day:"বুধবার", className:"কামিল-১ম ফিকহ", period:4, subject:"আল-আকিদাতুল ইসলামিয়্যাহ্", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:410, day:"বুধবার", className:"কামিল-১ম ফিকহ", period:5, subject:"ফিকহুল মুয়াশারাহ্ ওয়া কানুনূল উসরাতিল মুসলিমাহ্", teacher:"মাদ্রাসা", room:"কক্ষ-১৬", tag:""},
+  {id:411, day:"বুধবার", className:"ফাযিল-৩য়", period:3, subject:"দিরাসাতুল হাদীস ওয়া উসুলুহ", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:412, day:"বুধবার", className:"ফাযিল-৩য়", period:4, subject:"আল-আকিদাতুল ইসলামিয়্যাহ্", teacher:"FRC", room:"কক্ষ-১৪", tag:""},
+  {id:413, day:"বুধবার", className:"ফাযিল-৩য়", period:5, subject:"ইংরেজি", teacher:"MR", room:"কক্ষ-১৭", tag:""},
+  {id:414, day:"বুধবার", className:"ফাযিল-৩য়", period:6, subject:"দিরাসাতুল হাদীস ওয়া উসুলুহু", teacher:"মাদ্রাসা", room:"কক্ষ-০৬", tag:""},
+  {id:415, day:"বুধবার", className:"ফাযিল-৩য়", period:7, subject:"উসুলুল ফিক্হ ওয়া আসরারুশ শারীয়াহ্", teacher:"মাদ্রাসা", room:"কক্ষ-১৬", tag:""},
+  {id:416, day:"বুধবার", className:"ফাযিল-২য়", period:2, subject:"তারিখুল ইসলামী ওয়া তারিখু ইলমিল ফি-", teacher:"মাদ্রাসা", room:"কক্ষ-১৪", tag:""},
+  {id:417, day:"বুধবার", className:"ফাযিল-২য়", period:6, subject:"উসুলুল ফিক্ (১)", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:418, day:"বুধবার", className:"ফাযিল-২য়", period:7, subject:"ই.ইতি (৩)", teacher:"AH", room:"কক্ষ-২০", tag:""},
+  {id:419, day:"বুধবার", className:"ফাযিল-১ম", period:2, subject:"আরবি (২)", teacher:"মাদ্রাসা", room:"কক্ষ-২০", tag:""},
+  {id:420, day:"বুধবার", className:"ফাযিল-১ম", period:3, subject:"উসুল-ই-ফিকাহ", teacher:"ZHC", room:"কক্ষ-১৭", tag:""},
+  {id:421, day:"বুধবার", className:"ফাযিল-১ম", period:4, subject:"তাফসীর", teacher:"ZHC", room:"কক্ষ-১৬", tag:""},
+  {id:422, day:"বুধবার", className:"ফাযিল-১ম", period:5, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১৬", tag:""},
+  {id:423, day:"বুধবার", className:"আলিম-২য়", period:1, subject:"পদার্থ / ই.ইতি", teacher:"RS / AH", room:"কক্ষ-০৭ / ১২", tag:""},
+  {id:424, day:"বুধবার", className:"আলিম-২য়", period:2, subject:"ফিকহ-১", teacher:"FRC", room:"কক্ষ-১২", tag:""},
+  {id:425, day:"বুধবার", className:"আলিম-২য়", period:3, subject:"বাংলা / পদার্থ / ই.ইতি", teacher:"IS / RS / AH", room:"কক্ষ-১২ / ০৮ / ১১", tag:""},
+  {id:426, day:"বুধবার", className:"আলিম-২য়", period:4, subject:"উ.গ / আরবি-২ / রসায়ন / অর্থ / পৌর", teacher:"RH / MRM / HRC / JA / DBA", room:"কক্ষ-০৭ / ১২ / ০৯ / ১৮ / ১১", tag:""},
+  {id:427, day:"বুধবার", className:"আলিম-২য়", period:5, subject:"জীব / ফারায়েজ", teacher:"SSI / FRC", room:"কক্ষ-০৭ / ১২", tag:""},
+  {id:428, day:"বুধবার", className:"আলিম-২য়", period:6, subject:"মানতিক / উ.গ / আরবি-২", teacher:"ZHC / AH / MRM", room:"কক্ষ-১২ / ০৭ / ১১", tag:""},
+  {id:429, day:"বুধবার", className:"আলিম-২য়", period:7, subject:"রসায়ন / অর্থ / পৌর", teacher:"HRC / ZA / AHC", room:"কক্ষ-০৮ / ১৮ / ১২", tag:""},
+  {id:430, day:"বুধবার", className:"আলিম-১ম", period:1, subject:"বালাগাত", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:431, day:"বুধবার", className:"আলিম-১ম", period:2, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-১১", tag:""},
+  {id:432, day:"বুধবার", className:"দাখিল-১০ম", period:1, subject:"জীব / বা.বি.প", teacher:"SSI / DBA", room:"কক্ষ-০৮ / ০৬", tag:""},
+  {id:433, day:"বুধবার", className:"দাখিল-১০ম", period:2, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:434, day:"বুধবার", className:"দাখিল-১০ম", period:3, subject:"রসায়ন / ত.যো.প্র", teacher:"HRC / DBA", room:"কক্ষ-০৯ / ০৬", tag:""},
+  {id:435, day:"বুধবার", className:"দাখিল-১০ম", period:4, subject:"বাংলা", teacher:"AQ", room:"কক্ষ-০৬", tag:""},
+  {id:436, day:"বুধবার", className:"দাখিল-১০ম", period:5, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:437, day:"বুধবার", className:"দাখিল-১০ম", period:6, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:438, day:"বুধবার", className:"দাখিল-১০ম", period:7, subject:"আকাইদ ও ফিকহ", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:439, day:"বুধবার", className:"দাখিল-৯ম", period:1, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৫", tag:""},
+  {id:440, day:"বুধবার", className:"দাখিল-৯ম", period:2, subject:"বাংলা", teacher:"AQ", room:"কক্ষ-০৫", tag:""},
+  {id:441, day:"বুধবার", className:"দাখিল-৯ম", period:3, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+  {id:442, day:"বুধবার", className:"দাখিল-৯ম", period:4, subject:"পদার্থ / ই.ইতি", teacher:"RS / AH", room:"কক্ষ-০৮ / ০৫", tag:""},
+  {id:443, day:"বুধবার", className:"দাখিল-৯ম", period:5, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৫", tag:""},
+  {id:444, day:"বুধবার", className:"দাখিল-৯ম", period:6, subject:"জীব / বা.বি.প", teacher:"SSI / AQ", room:"কক্ষ-০৭ / ০৫", tag:""},
+  {id:445, day:"বুধবার", className:"দাখিল-৯ম", period:7, subject:"উ.গণিত", teacher:"AH", room:"কক্ষ-০৮", tag:""},
+
+  // --- বৃহস্পতিবার (Thursday) ---
+  {id:501, day:"বৃহস্পতিবার", className:"কামিল-২য় হাদিস", period:2, subject:"আল-ফিকহুল মাযহাবি ওয়া ইলমুত তাসাউফ", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:502, day:"বৃহস্পতিবার", className:"কামিল-১ম হাদিস", period:2, subject:"তিরমিযি", teacher:"ZHC", room:"কক্ষ-১০", tag:""},
+  {id:503, day:"বৃহস্পতিবার", className:"কামিল-১ম হাদিস", period:3, subject:"আবু দাউদ", teacher:"মাদ্রাসা", room:"কক্ষ-১০", tag:""},
+  {id:504, day:"বৃহস্পতিবার", className:"কামিল-২য় তাফসির", period:2, subject:"আল-ফিকহুল মাযহাবি ওয়া ইলমুত তাসাউফ", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:505, day:"বৃহস্পতিবার", className:"কামিল-২য় তাফসির", period:3, subject:"উলুমুল কোরআন", teacher:"মাদ্রাসা", room:"কক্ষ-০৮", tag:""},
+  {id:506, day:"বৃহস্পতিবার", className:"কামিল-২য় ফিকহ", period:2, subject:"আল-ফিকহুল মাযহাবি ওয়া ইলমুত তাসাউফ", teacher:"মাদ্রাসা", room:"মাদ্রাসা", tag:""},
+  {id:507, day:"বৃহস্পতিবার", className:"ফাযিল-৩য়", period:3, subject:"দিরাসাতুল ফাতাওয়া", teacher:"FRC", room:"কক্ষ-০৯", tag:""},
+  {id:508, day:"বৃহস্পতিবার", className:"ফাযিল-৩য়", period:4, subject:"ফিকহুস সুনান", teacher:"মাদ্রাসা", room:"কক্ষ-১৪", tag:""},
+  {id:509, day:"বৃহস্পতিবার", className:"ফাযিল-৩য়", period:5, subject:"আল কাওয়াইদুল ফিকহিয়্যাহ", teacher:"মাদ্রাসা", room:"কক্ষ-১৪", tag:""},
+  {id:510, day:"বৃহস্পতিবার", className:"ফাযিল-২য়", period:3, subject:"আরবি (৩)", teacher:"মাদ্রাসা", room:"কক্ষ-২০", tag:""},
+  {id:511, day:"বৃহস্পতিবার", className:"ফাযিল-২য়", period:4, subject:"ফিকহ", teacher:"FRC", room:"কক্ষ-১৭", tag:""},
+  {id:512, day:"বৃহস্পতিবার", className:"ফাযিল-২য়", period:5, subject:"আরবি", teacher:"মাদ্রাসা", room:"কক্ষ-১৭", tag:""},
+  {id:513, day:"বৃহস্পতিবার", className:"ফাযিল-১ম", period:3, subject:"ইংরেজি", teacher:"MR", room:"কক্ষ-১৭", tag:""},
+  {id:514, day:"বৃহস্পতিবার", className:"ফাযিল-১ম", period:4, subject:"দিরাসাতুত তাফসীর (৩)", teacher:"MRM", room:"মাদ্রাসা", tag:""},
+  {id:515, day:"বৃহস্পতিবার", className:"ফাযিল-১ম", period:5, subject:"হাদিস", teacher:"ZHC", room:"কক্ষ-১২", tag:""},
+  {id:516, day:"বৃহস্পতিবার", className:"আলিম-২য়", period:1, subject:"ত.যো.প্র", teacher:"DBA", room:"কক্ষ-১২", tag:""},
+  {id:517, day:"বৃহস্পতিবার", className:"আলিম-২য়", period:2, subject:"রসায়ন / অর্থ / পৌর", teacher:"HRC / ZA / AHC", room:"কক্ষ-০৭ / ১৮ / ১১", tag:""},
+  {id:518, day:"বৃহস্পতিবার", className:"আলিম-২য়", period:3, subject:"দিরাসাতুত তাফসীর (২) / ফিকহ-১", teacher:"ZHC / FRC", room:"কক্ষ-১২ / ১২", tag:""},
+  {id:519, day:"বৃহস্পতিবার", className:"আলিম-২য়", period:4, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-১২", tag:""},
+  {id:520, day:"বৃহস্পতিবার", className:"আলিম-২য়", period:5, subject:"বাংলা", teacher:"IS", room:"কক্ষ-১২", tag:""},
+  {id:521, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:1, subject:"হাদিস", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:522, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:2, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-১১", tag:""},
+  {id:523, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:3, subject:"ত.যো.প্র", teacher:"DBA", room:"কক্ষ-১১", tag:""},
+  {id:524, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:4, subject:"কুরআন", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:525, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:5, subject:"জীব / উ. ফিকহ", teacher:"SSI / FRC", room:"কক্ষ-০৭ / ১১", tag:""},
+  {id:526, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:6, subject:"বালাগাত", teacher:"ZHC", room:"কক্ষ-১৫", tag:""},
+  {id:527, day:"বৃহস্পতিবার", className:"আলিম-১ম", period:7, subject:"কুরআন", teacher:"ZHC", room:"কক্ষ-১১", tag:""},
+  {id:528, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:1, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
+  {id:529, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:2, subject:"হাদিস", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:530, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:3, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৬", tag:""},
+  {id:531, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:4, subject:"জীব / বা.বি.প", teacher:"SSI / DBA", room:"কক্ষ-০৮ / ০৬", tag:""},
+  {id:532, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:5, subject:"উ.গণিত", teacher:"RH", room:"কক্ষ-০৭", tag:""},
+  {id:533, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:6, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
+  {id:534, day:"বৃহস্পতিবার", className:"দাখিল-১০ম", period:7, subject:"রসায়ন / তথ্য.যো.প্র", teacher:"HRC / RS", room:"কক্ষ-০৯ / ০৬", tag:""},
+  {id:535, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:1, subject:"ইংরেজি", teacher:"MRC", room:"কক্ষ-০৫", tag:""},
+  {id:536, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:2, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
+  {id:537, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:3, subject:"গণিত", teacher:"AH", room:"কক্ষ-০৫", tag:""},
+  {id:538, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:4, subject:"পদার্থ / ই.ইতি", teacher:"RS / AH", room:"কক্ষ-০৮ / ০৫", tag:""},
+  {id:539, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:5, subject:"উ.গণিত", teacher:"AH", room:"কক্ষ-০৭", tag:""},
+  {id:540, day:"বৃহস্পতিবার", className:"দাখিল-৯ম", period:6, subject:"আকাইদ ও ফিকহ", teacher:"SMS", room:"কক্ষ-০৫", tag:""}
+];
+
+let rows = JSON.parse(localStorage.getItem("sylhet_alia_full_v4") || JSON.stringify(fullRoutineData));
+let currentRole = "student";
+
+function init() {
+  setTodayDay();
+  populateDropdowns();
+  setRole('student');
+}
+
+function setTodayDay() {
+  const dayNames = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
+  const todayIndex = new Date().getDay();
+  const today = (todayIndex >= 0 && todayIndex <= 4) ? dayNames[todayIndex] : "রবিবার";
+  
+  daySelect.innerHTML = days.map(d => `<option value="${d}" ${d === today ? 'selected':''}>${d}</option>`).join("");
+  addDay.innerHTML = days.map(d => `<option value="${d}">${d}</option>`).join("");
+}
+
+function populateDropdowns() {
+  addClass.innerHTML = classes.map(c => `<option value="${c}">${c}</option>`).join("");
+}
+
+function setRole(role) {
+  currentRole = role;
+  
+  document.querySelectorAll(".role-btn").forEach((btn, idx) => {
+    btn.classList.toggle("active", (role === 'student' && idx === 0) || (role === 'teacher' && idx === 1) || (role === 'admin' && idx === 2));
+  });
+
+  const mainSelect = document.getElementById("mainSelect");
+  resetForm();
+
+  if (role === "student") {
+    roleIndicator.innerText = "Student Mode";
+    adminPanel.style.display = "none";
+    filterControls.style.display = "flex";
+    mainSelect.innerHTML = classes.map(c => `<option value="${c}">${c}</option>`).join("");
+  } else if (role === "teacher") {
+    roleIndicator.innerText = "Teacher Mode";
+    adminPanel.style.display = "none";
+    filterControls.style.display = "flex";
+    
+    // Extract unique teacher codes
+    let allTeachers = [];
+    rows.forEach(r => {
+      let tList = r.teacher.split('/').map(t => t.trim());
+      allTeachers.push(...tList);
+    });
+    const teachers = [...new Set(allTeachers)].filter(Boolean);
+
+    mainSelect.innerHTML = teachers.length > 0 
+      ? teachers.map(t => `<option value="${t}">${t}</option>`).join("") 
+      : `<option value="">কোন শিক্ষক পাওয়া যায়নি</option>`;
+  } else if (role === "admin") {
+    roleIndicator.innerText = "Admin & Edit Panel";
+    adminPanel.style.display = "block";
+    filterControls.style.display = "flex";
+    mainSelect.innerHTML = classes.map(c => `<option value="${c}">${c}</option>`).join("");
+  }
+
+  renderCards();
+}
+
+function renderCards() {
+  const selectedVal = mainSelect.value;
+  const selectedDay = daySelect.value;
+  dayDisplay.innerHTML = `📅 ${selectedDay}`;
+
+  let filtered = [];
+
+  if (currentRole === "teacher") {
+    filtered = rows.filter(r => r.teacher.includes(selectedVal) && r.day === selectedDay);
+  } else {
+    filtered = rows.filter(r => r.className === selectedVal && r.day === selectedDay);
+  }
+
+  filtered.sort((a,b) => a.period - b.period);
+
+  if (filtered.length === 0) {
+    cardContainer.innerHTML = `<div class="empty-msg">এই দিনে নির্দিষ্ট শ্রেণির কোনো ক্লাস বরাদ্দ নেই।</div>`;
+    return;
+  }
+
+  cardContainer.innerHTML = filtered.map(r => `
+    <div class="routine-card">
+      ${r.tag ? `<div class="card-badge">${r.tag}</div>` : ''}
+      <div class="card-title">${r.subject}</div>
+      <div class="card-teacher">👨‍🏫 শিক্ষক: ${r.teacher} ${currentRole === 'teacher' ? `(${r.className})` : ''}</div>
+      <div class="card-info">
+        <div>🕒 সময়: ${times[r.period] || 'সময় নির্ধারিত নয়'} (পিরিয়ড: ${r.period})</div>
+        <div>📍 স্থান: ${r.room}</div>
+      </div>
+      ${currentRole === 'admin' ? `
+        <div class="card-actions">
+          <button class="btn-sm btn-edit" onclick="editRoutine(${r.id})">✏️ এডিট</button>
+          <button class="btn-sm btn-delete" onclick="deleteRoutine(${r.id})">🗑️ ডিলিট</button>
+        </div>
+      ` : ''}
+    </div>
+  `).join("");
+}
+
+function saveRoutine() {
+  const editIdVal = editId.value;
+  
+  if (!addSubject.value || !addTeacher.value || !addRoom.value) {
+    alert("অনুগ্রহ করে বিষয়, শিক্ষক এবং রুমের তথ্য প্রদান করুন।");
+    return;
+  }
+
+  if (editIdVal) {
+    rows = rows.map(r => r.id == editIdVal ? {
+      ...r,
+      subject: addSubject.value,
+      teacher: addTeacher.value,
+      room: addRoom.value,
+      period: parseInt(addPeriod.value),
+      day: addDay.value,
+      className: addClass.value,
+      tag: addTag.value
+    } : r);
+    alert("সফলভাবে আপডেট করা হয়েছে!");
+  } else {
+    const newItem = {
+      id: Date.now(),
+      day: addDay.value,
+      className: addClass.value,
+      period: parseInt(addPeriod.value),
+      subject: addSubject.value,
+      teacher: addTeacher.value,
+      room: addRoom.value,
+      tag: addTag.value
+    };
+    rows.push(newItem);
+    alert("নতুন ক্লাস সফলভাবে যুক্ত করা হয়েছে!");
+  }
+
+  localStorage.setItem("sylhet_alia_full_v4", JSON.stringify(rows));
+  resetForm();
+  setRole(currentRole);
+}
+
+function editRoutine(id) {
+  const item = rows.find(r => r.id === id);
+  if (!item) return;
+
+  editId.value = item.id;
+  addSubject.value = item.subject;
+  addTeacher.value = item.teacher;
+  addRoom.value = item.room;
+  addPeriod.value = item.period;
+  addDay.value = item.day;
+  addClass.value = item.className;
+  addTag.value = item.tag || "";
+
+  formTitle.innerText = "ক্লাসের তথ্য সংশোধন করুন";
+  saveBtn.innerText = "আপডেট করুন";
+  
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function resetForm() {
+  editId.value = "";
+  addSubject.value = "";
+  addTeacher.value = "";
+  addRoom.value = "";
+  addTag.value = "";
+  formTitle.innerText = "ক্লাস সংশোধন / যুক্ত করুন";
+  saveBtn.innerText = "রুটিন সংরক্ষণ করুন";
+}
+
+function deleteRoutine(id) {
+  if (confirm("আপনি কি নিশ্চিতভাবে এই ক্লাসটি মুছে ফেলতে চান?")) {
+    rows = rows.filter(r => r.id !== id);
+    localStorage.setItem("sylhet_alia_full_v4", JSON.stringify(rows));
+    renderCards();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
