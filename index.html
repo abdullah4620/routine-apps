@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10b981">
+<meta name="description" content="Routine app for Sylhet Government Alia Madrasah class schedule">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./icons/icon-192.svg">
+<link rel="apple-touch-icon" href="./icons/icon-192.svg">
 <title>সিলেট সরকারি আলিয়া মাদ্রাসা - পূর্ণাঙ্গ রুটিন</title>
 <style>
 :root {
@@ -726,6 +733,25 @@ function deleteRoutine(id) {
     renderCards();
   }
 }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+      console.warn('Service worker registration failed:', error);
+    });
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+  console.log('PWA install prompt available');
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('PWA installed successfully');
+});
 
 init();
 </script>
