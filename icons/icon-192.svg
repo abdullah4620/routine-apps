@@ -1,13 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
   <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#38bdf8"/>
+    <linearGradient id="sealShine" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8f5ec"/>
+      <stop offset="100%" stop-color="#efe7d5"/>
     </linearGradient>
   </defs>
-  <rect width="192" height="192" rx="42" fill="#0f172a"/>
-  <rect x="18" y="18" width="156" height="156" rx="34" fill="url(#g)" opacity="0.95"/>
-  <path d="M58 62h76v18H58zm-4 34h84v18H54zm6 34h72v18H60z" fill="#ffffff" opacity="0.95"/>
-  <circle cx="144" cy="108" r="20" fill="#0f172a" opacity="0.8"/>
-  <text x="144" y="116" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">R</text>
+  <rect width="192" height="192" rx="42" fill="#f3efe7"/>
+
+  <g transform="translate(16 8)">
+    <circle cx="80" cy="80" r="74" fill="none" stroke="#2d2f36" stroke-width="5"/>
+    <circle cx="80" cy="80" r="66" fill="none" stroke="#2d2f36" stroke-width="2"/>
+    <circle cx="80" cy="80" r="58" fill="url(#sealShine)"/>
+
+    <path d="M32 44c14 8 27 9 48 9s34-1 48-9" fill="none" stroke="#2d2f36" stroke-width="4" stroke-linecap="round"/>
+    <path d="M31 116c15-8 28-9 49-9s34 1 49 9" fill="none" stroke="#2d2f36" stroke-width="4" stroke-linecap="round"/>
+
+    <g fill="#2d2f36" font-family="Noto Sans Bengali, Arial, sans-serif" font-weight="700">
+      <text x="80" y="30" text-anchor="middle" font-size="10">সিলেট</text>
+      <text x="80" y="153" text-anchor="middle" font-size="10">আলিয়া</text>
+    </g>
+
+    <g transform="translate(0 0)" fill="none" stroke="#2d2f36" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M80 54L90 62L80 79L70 62Z" fill="#d4b06a" stroke-width="1.5"/>
+      <path d="M62 67L80 50L98 67" stroke-width="2.5"/>
+      <path d="M52 85L80 68L108 85" stroke-width="2.5"/>
+      <path d="M58 96L80 79L102 96" stroke-width="2.3"/>
+      <path d="M80 79v25" stroke-width="2.5"/>
+      <path d="M55 104h50" stroke-width="2.5"/>
+      <path d="M46 98l-12 25M114 98l12 25" stroke-width="2.2"/>
+      <path d="M42 111h76" stroke-width="2.6"/>
+      <path d="M49 123c10-10 21-15 31-15s21 5 31 15" stroke-width="2.2"/>
+      <path d="M66 100l-8 16M94 100l8 16" stroke-width="2"/>
+    </g>
+
+    <g fill="#2d2f36" font-family="Noto Sans Bengali, Arial, sans-serif" font-weight="700">
+      <text x="80" y="142" text-anchor="middle" font-size="8">ভাষা ও নীতি</text>
+    </g>
+
+    <path d="M46 132h68c7 0 13 6 13 13v2H33v-2c0-7 6-13 13-13z" fill="#2d2f36"/>
+    <text x="80" y="147" text-anchor="middle" fill="#f5f1e8" font-family="Noto Sans Bengali, Arial, sans-serif" font-size="9" font-weight="700">শিক্ষা ১৯১৭</text>
+  </g>
 </svg>
