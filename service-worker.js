@@ -1,4 +1,4 @@
-const CACHE_NAME = 'routine-app-v1';
+const CACHE_NAME = 'routine-app-v2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -9,7 +9,9 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -17,26 +19,33 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys
+          .filter((key) => key.startsWith('routine-app-') && key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
       )
     ).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+  event.respondWith((async () => {
+    const cached = await caches.match(request);
+    if (cached && request.mode !== 'navigate') return cached;
 
-      return fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          return response;
-        })
-        .catch(() => caches.match('./index.html'));
-    })
-  );
+    try {
+      const response = await fetch(request);
+      if (response.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
+      }
+      return response;
+    } catch (error) {
+      const fallback = cached || (request.mode === 'navigate' && await caches.match('./index.html'));
+      if (fallback) return fallback;
+      throw error;
+    }
+  })());
 });

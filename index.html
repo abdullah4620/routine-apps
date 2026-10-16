@@ -2,7 +2,13 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10b981">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="মাদ্রাসা রুটিন">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.svg">
 <title>সিলেট সরকারি আলিয়া মাদ্রাসা - পূর্ণাঙ্গ রুটিন</title>
 <style>
 :root {
@@ -28,7 +34,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 10px 0;
+  min-height: 100dvh;
+  padding: max(10px, env(safe-area-inset-top)) 0 max(10px, env(safe-area-inset-bottom));
 }
 
 .app-container {
@@ -97,6 +104,120 @@ body {
   box-shadow: 0 0 12px var(--primary-glow);
 }
 
+.about-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(3, 7, 18, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.about-backdrop[hidden] { display: none; }
+
+.about-panel {
+  position: relative;
+  width: min(100%, 360px);
+  padding: 30px 24px 26px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: #111827;
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  animation: about-enter 180ms ease-out;
+}
+
+.about-panel::before {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), #f4729a);
+  content: "";
+}
+
+.about-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.creator-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 142px;
+  aspect-ratio: 1;
+  margin: 4px auto 20px;
+  overflow: hidden;
+  border: 3px solid rgba(16, 185, 129, 0.75);
+  border-radius: 50%;
+  background: #0f766e;
+  color: white;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.creator-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-name {
+  margin-bottom: 8px;
+  color: #f4729a;
+  font-family: Georgia, "Noto Serif Bengali", serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.about-education {
+  margin-bottom: 16px;
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.about-copy {
+  margin: 0 auto 18px;
+  color: var(--text-sub);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.about-contact-label {
+  margin-bottom: 5px;
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.about-email {
+  color: #7dd3fc;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+@keyframes about-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .content {
   padding: 18px;
   flex: 1;
@@ -114,9 +235,10 @@ body {
   background: var(--card-bg);
   color: var(--text-main);
   border-radius: 12px;
+  min-height: 44px;
   padding: 11px 14px;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   transition: border 0.3s;
 }
 
@@ -205,12 +327,14 @@ body {
 }
 
 .btn-sm {
+  min-height: 44px;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .btn-edit { background: var(--warning); color: #000; }
@@ -237,6 +361,28 @@ body {
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 12px var(--primary-glow);
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+.role-btn { min-height: 44px; touch-action: manipulation; }
+
+@media (max-width: 480px) {
+  body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+
+  .app-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .top-header { padding: 16px 14px; }
+  .content { padding: 14px; }
+  .controls { flex-direction: column; gap: 8px; }
 }
 
 .empty-msg {
@@ -258,7 +404,7 @@ body {
     <div class="role-bar">
       <button class="role-btn active" onclick="setRole('student')">🎓 ছাত্র/ছাত্রী</button>
       <button class="role-btn" onclick="setRole('teacher')">👨‍🏫 শিক্ষক</button>
-      <button class="role-btn" onclick="setRole('admin')">⚙️ এডিট</button>
+      <button class="role-btn" id="aboutButton" onclick="openAbout()">ℹ️ এবাউট</button>
     </div>
   </header>
 
@@ -298,6 +444,20 @@ body {
       </div>
     </div>
   </div>
+</div>
+
+<div class="about-backdrop" id="aboutDialog" role="dialog" aria-modal="true" aria-labelledby="aboutName" hidden onclick="if (event.target === this) closeAbout()">
+  <section class="about-panel">
+    <button class="about-close" id="closeAbout" type="button" aria-label="এবাউট বন্ধ করুন" onclick="closeAbout()">&times;</button>
+    <div class="creator-avatar" aria-label="Md Abdullah Al Noman-এর ছবি">
+      <img src="./icons/creator.png" alt="Md Abdullah Al Noman">
+    </div>
+    <h2 class="about-name" id="aboutName">Md Abdullah Al Noman</h2>
+    <p class="about-education">B.Sc in CSE, NEUB</p>
+    <p class="about-copy">শিক্ষার্থী ও শিক্ষকদের প্রতিদিনের ক্লাসের সময়, বিষয় ও কক্ষের তথ্য সহজে জানার জন্য এই রুটিন অ্যাপটি তৈরি। প্রয়োজনীয় তথ্য এক জায়গায় রেখে প্রতিদিনের পড়াশোনার পরিকল্পনাকে আরও সহজ করাই এর উদ্দেশ্য।</p>
+    <p class="about-contact-label">যোগাযোগ</p>
+    <a class="about-email" href="mailto:mdabdullahalnoman4620@gmail.com">mdabdullahalnoman4620@gmail.com</a>
+  </section>
 </div>
 
 <script>
@@ -504,7 +664,7 @@ const fullRoutineData = [
   {id:436, day:"বুধবার", className:"দাখিল-১০ম", period:2, subject:"বাংলা", teacher:"AQ", room:"কক্ষ-০৬", tag:""},
   {id:437, day:"বুধবার", className:"দাখিল-১০ম", period:3, subject:"কুরআন", teacher:"SMS", room:"কক্ষ-০৬", tag:""},
   {id:438, day:"বুধবার", className:"দাখিল-১০ম", period:4, subject:"জীব / কৃষিশিক্ষা", teacher:"SSI / ZA", room:"কক্ষ-০৮ / ০৬", tag:""},
-  {id:439, day:"বুধবার", className:"দাখিল-১০ম", period:5, subject:"রসায়ন / ত.যো.প্র", teacher:"HRC / DBA", room:"কক্ষ-০৯ / ০6", tag:""},
+  {id:439, day:"বুধবার", className:"দাখিল-১০ম", period:5, subject:"রসায়ন / ত.যো.প্র", teacher:"HRC / AAN", room:"কক্ষ-০৯ / ০6", tag:""},
   {id:440, day:"বুধবার", className:"দাখিল-১০ম", period:6, subject:"আরবি-১", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
   {id:441, day:"বুধবার", className:"দাখিল-১০ম", period:7, subject:"আকাইদ ও ফিকহ", teacher:"MRM", room:"কক্ষ-০৬", tag:""},
   {id:442, day:"বুধবার", className:"দাখিল-৯ম", period:1, subject:"আরবি-২", teacher:"MRM", room:"কক্ষ-০৫", tag:""},
@@ -562,6 +722,22 @@ const fullRoutineData = [
 let rows = JSON.parse(localStorage.getItem("sylhet_alia_full_pdf_v2") || JSON.stringify(fullRoutineData));
 let currentRole = "student";
 
+function openAbout() {
+  document.getElementById("aboutDialog").hidden = false;
+  document.getElementById("closeAbout").focus();
+}
+
+function closeAbout() {
+  document.getElementById("aboutDialog").hidden = true;
+  document.getElementById("aboutButton").focus();
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !document.getElementById("aboutDialog").hidden) {
+    closeAbout();
+  }
+});
+
 function init() {
   setTodayDay();
   populateDropdowns();
@@ -569,6 +745,23 @@ function init() {
   // ব্যবহারকারীর আগের সিলেক্ট করা তথ্য বা ডিফল্ট মোড লোড করা
   const savedRole = localStorage.getItem("alia_saved_role") || "student";
   setRole(savedRole);
+  registerServiceWorker();
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) {
+    console.warn("Offline support requires a browser with service worker support.");
+    return;
+  }
+
+  if (!window.isSecureContext) {
+    console.warn("Offline support requires HTTPS (or localhost).");
+    return;
+  }
+
+  navigator.serviceWorker.register("./service-worker.js").catch(error => {
+    console.error("Service worker registration failed:", error);
+  });
 }
 
 function setTodayDay() {
@@ -585,6 +778,7 @@ function populateDropdowns() {
 }
 
 function setRole(role) {
+  role = role === "teacher" ? "teacher" : "student";
   currentRole = role;
   localStorage.setItem("alia_saved_role", role);
   
@@ -619,7 +813,7 @@ function setRole(role) {
     const teachers = [...new Set(allTeachers)].filter(t => t && t !== 'মাদ্রাসা');
 
     mainSelect.innerHTML = teachers.length > 0 
-      ? teachers.map(t => `<option value="${t}">${t}</option>`).join("") 
+      ? teachers.map(t => `<option value="${t}">${getTeacherDisplayName(t)}</option>`).join("") 
       : `<option value="">কোন শিক্ষক পাওয়া যায়নি</option>`;
       
     const savedTeacher = localStorage.getItem("alia_saved_teacher");
@@ -647,6 +841,27 @@ function handleSelectionChange() {
   renderCards();
 }
 
+const teacherFullNames = {
+  SSI: "জনাব শাহ শহীদ ইসলাম",
+  FRC: "জনাব মোঃ ফজলুর রহমান চৌধুরী",
+  ZHC: "জনাব মোঃ জিয়াউল হক চৌধুরী",
+  AHC: "জনাব এনামুল হক চৌধুরী",
+  JA: "জনাব জেসমিন আক্তার",
+  DBA: "ড. মোঃ বায়েজীদ আলম",
+  MRC: "জনাব মোঃ মাহবুবুর রহমান চৌধুরী",
+  AH: "জনাব আনোয়ার হোসেন",
+  SKC: "জনাব মোঃ শামসুল কিবরিয়া চৌধুরী",
+  RS: "জনাব রনজিত শর্মা",
+  IS: "জনাব আইরিন সুলতানা",
+  MAH: "জনাব মোঃ আইনুল হক",
+  MRM: "জনাব মোঃ মামুনুর রশীদ মুর্তুযা",
+  AAN: "জনাব আব্দুল্লাহ আল নোমান"
+};
+
+function getTeacherDisplayName(teacher) {
+  return teacher.replace(/\b(SSI|FRC|ZHC|AHC|JA|DBA|MRC|AH|SKC|RS|IS|MAH|MRM|AAN)\b/g, abbreviation => teacherFullNames[abbreviation]);
+}
+
 function renderCards() {
   const selectedVal = mainSelect.value;
   const selectedDay = daySelect.value;
@@ -671,7 +886,7 @@ function renderCards() {
     <div class="routine-card">
       ${r.tag ? `<div class="card-badge">${r.tag}</div>` : ''}
       <div class="card-title">${r.subject}</div>
-      <div class="card-teacher">👨‍🏫 শিক্ষক: ${r.teacher} ${currentRole === 'teacher' ? `(${r.className})` : ''}</div>
+      <div class="card-teacher">👨‍🏫 শিক্ষক: ${getTeacherDisplayName(r.teacher)} ${currentRole === 'teacher' ? `(${r.className})` : ''}</div>
       <div class="card-info">
         <div>🕒 সময়: ${times[r.period] || 'সময় নির্ধারিত নয়'} (পিরিয়ড: ${r.period})</div>
         <div>📍 স্থান: ${r.room}</div>
